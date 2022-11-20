@@ -1,0 +1,23 @@
+header {
+  text-align: center;
+}
+
+.container {
+  display: flex;
+  
+}
+
+
+form{
+  flex-direction: row;
+}
+/* .form-div {
+  flex-flow: row wrap;
+} */
+
+.weather {
+  flex-flow: column wrap;
+  border: 1px solid black;
+  height: 100px;
+  width: 200px;
+}
