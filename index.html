@@ -8,21 +8,32 @@
     <title>Weather Dashboard</title>
   </head>
   <body>
-    <header>Weather Dashboard</header>
     <div class="container">
-      <div class="form-div">
+      <aside id="aside">
         <form action="" id="searchForm">
-          <label for="">Search a City</label>
-          <input
-            type="text"
-            name="query"
-            placeholder="City, State, or Country"
-          />
-          <button type="submit">Seach</button>
+          <div class="">
+            <label class="" for="search"
+              >Search a location for its weather</label
+            ><br />
+            <input
+              class=""
+              type="text"
+              name="query"
+              placeholder="City, State, or Country"
+              id="search"
+            />
+            <button type="submit">Search</button>
+          </div>
+          <p>Search History</p>
         </form>
-        <div>cities</div>
-      </div>
-      <div class="weather"></div>
+      </aside>
+      <section id="weatherSection">
+        <div id="currentWeather">
+          <p id="cityName"></p>
+          <div class="weather-div"></div>
+        </div>
+        <div id="forcast" class="forcast-container"></div>
+      </section>
     </div>
 
     <script src="./assets/app.js"></script>
