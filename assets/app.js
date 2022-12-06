@@ -1,22 +1,108 @@
 const searchForm = document.querySelector("#searchForm");
 const apiKey = "5a937f93e610e1adbf4727fe4992bad9";
-const searchLocation = searchForm.elements.query.value;
+let searchLocation = searchForm.elements.query.value;
 const cityName = document.querySelector("#cityName");
 const currentWeatherDiv = document.querySelector("#currentWeather");
 const forcast = document.querySelector("#forcast");
 const aside = document.querySelector("#aside");
 const weatherSection = document.querySelector("#weatherSection");
+const weatherUl = document.querySelector("#storedWeather");
 
-//could use empty array for localstorage
+const weatherList = [];
 
-searchForm.addEventListener("submit", function (e) {
-  e.preventDefault();
+// Grabbing any stored data
+// let startupData = localStorage.getItem("weather");
+// console.log(startupData); // --> JSON OBJECT "{ "weather": "["Detriot"]" }"
+// console.log(typeof startupData); // --> STRING
+
+// parsing the information (converting the STRING/JSON into JS OBJECTs)
+// let parsedData = JSON.parse(startupData);
+// console.log(parsedData); // --> JS OBJECT { weather: ["Detriot"] }
+// console.log(typeof parsedData); // --> OBJECT (JS ARRAY)
+
+// // here we ADD NEW DATA to our JS OBJECT
+// parsedData.push("Chicago");
+// console.log(parsedData); // --> { weather: ["Detroit", "Chicago"]}
+
+// // Transform data back to a SRTING / JSON
+// let jsonData = JSON.stringify(parsedData);
+// console.log(jsonData); //
+// console.log(typeof jsonData); //
+
+// // we are writing the NEW DATA into the Browser
+// localStorage.setItem("weather", jsonData);
+
+// use empty array for localstorage
+// add searched location to localstorage
+// add location to ul when location is submitted
+// each time new location is searched and submitted add it to the list
+// when a location is selected it should display the data from that location that was stored in local storage
+
+//if there is time use media queries to make page responsive
+
+const initalizeData = () => {
+  // Initialize our Dataset --> "weather": "[]"
+  localStorage.setItem("weather", JSON.stringify(weatherList));
+};
+
+const storeWeatherList = function () {
+  // we need to get the data
+  let storedData = localStorage.getItem("weather");
+
+  // parse the data
+  let storedParsedData = JSON.parse(storedData);
+
+  // update our dataset  --> Where is this new data coming from(?)
+  searchLocation = searchForm.elements.query.value;
+
+  storedParsedData.push(searchLocation);
+
+  // convert our data back to a STRING / JSON
+  let storedStringData = JSON.stringify(storedParsedData);
+
+  // update/save the new dataset
+  localStorage.setItem("weather", storedStringData);
+};
+
+const showWeatherList = function () {
+  let storedWeatherData = JSON.parse(localStorage.getItem("weather"));
+  weatherUl.innerHTML = "";
+  for (let i = 0; i < storedWeatherData.length; i++) {
+    const btn = document.createElement("button");
+    const li = document.createElement("li");
+    btn.textContent = storedWeatherData[i];
+    li.append(btn);
+    weatherUl.append(li);
+  }
+};
+
+weatherUl.addEventListener("click", function (e) {
+  const cityClick = e.target.innerHTML;
+  console.log(cityClick);
+
   currentWeatherDiv.innerHTML = "";
   forcast.innerHTML = "";
   cityName.innerHTML = "";
   aside.classList.add("asideStyle");
   weatherSection.classList.add("weather-container");
-  getWeather();
+
+  getWeather(cityClick);
+});
+
+searchForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+  // here we want to make sure we cpture the user input (city_name)
+  currentWeatherDiv.innerHTML = "";
+  forcast.innerHTML = "";
+  cityName.innerHTML = "";
+  aside.classList.add("asideStyle");
+  weatherSection.classList.add("weather-container");
+
+  // we want to tpass that user value to our storeWeather function
+  // showWeatherList();
+  const searchValue = searchForm.elements.query.value;
+  storeWeatherList();
+  getWeather(searchValue);
 });
 
 const showCurrentCity = function (name, state) {
@@ -80,11 +166,10 @@ const showCurrentWeather = function (data) {
   currentWeatherDiv.classList.add("currentWeather");
 
   currentWeatherDiv.append(p, img, p1, p2, p3);
-  console.log(data);
 };
 
-function getWeather() {
-  const searchLocation = searchForm.elements.query.value;
+function getWeather(searchLocation) {
+  // const searchLocation = searchForm.elements.query.value;
   fetch(
     `http://api.openweathermap.org/geo/1.0/direct?q=${searchLocation}&limit=5&appid=${apiKey}`
   )
@@ -92,12 +177,12 @@ function getWeather() {
       return res.json();
     })
     .then((data) => {
-      console.log(data);
       const name = data[0].name;
       const state = data[0].state;
       const lat = data[0].lat;
       const lon = data[0].lon;
       showCurrentCity(name, state);
+      console.log(data);
       fetch(
         `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=hourly,minutely,alerts&appid=${apiKey}`
       )
@@ -107,11 +192,14 @@ function getWeather() {
         .then((data) => {
           showCurrentWeather(data);
           showDailyWeather(data);
+          showWeatherList();
           return console.log(data);
         });
       return;
     });
 }
+
+initalizeData(); // --> this function call initializes our empty dataset
 
 // const getLocation = function () {
 //   fetch(
