@@ -133,7 +133,7 @@ const showDailyWeather = function (data) {
     for (let j = 0; j < data.daily[i].weather.length; j++) {
       const img = document.createElement("img");
       const weeklyIcon = data.daily[i].weather[j].icon;
-      img.src = `http://openweathermap.org/img/wn/${weeklyIcon}.png`;
+      img.src = `https://openweathermap.org/img/wn/${weeklyIcon}.png`;
       div.append(p, img, p1, p2, p3, p4);
     }
     const weeklyHi = data.daily[i].temp.max;
@@ -167,7 +167,7 @@ const showCurrentWeather = function (data) {
   p1.textContent = `Temperature: ${Math.round(currentTemp)}°`;
   p2.textContent = `Humidity: ${currentHumidity}%`;
   p3.textContent = `Wind Speed: ${currentWindspeed} MPH`;
-  img.src = `http://openweathermap.org/img/wn/${currentIcon}.png`;
+  img.src = `https://openweathermap.org/img/wn/${currentIcon}.png`;
   currentWeatherDiv.classList.add("currentWeather");
 
   currentWeatherDiv.append(p, img, p1, p2, p3);
@@ -176,7 +176,7 @@ const showCurrentWeather = function (data) {
 function getWeather(searchLocation) {
   // const searchLocation = searchForm.elements.query.value;
   fetch(
-    `http://api.openweathermap.org/geo/1.0/direct?q=${searchLocation}&limit=5&appid=${apiKey}`
+    `https://api.openweathermap.org/geo/1.0/direct?q=${searchLocation}&limit=5&appid=${apiKey}`
   )
     .then((res) => {
       return res.json();
