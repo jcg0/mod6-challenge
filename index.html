@@ -4,34 +4,37 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oxygen:wght@300;400;700&display=swap"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="./assets/style.css" />
     <title>Weather Dashboard</title>
   </head>
   <body>
     <div class="container">
-      <aside id="aside">
+      <aside id="aside" class="aside-style">
         <form action="" id="searchForm">
-          <div class="">
-            <label class="" for="search"
-              >Search a location for its weather</label
-            ><br />
+          <div class="search">
+            <label class="" for="search">Search location</label><br />
             <input
-              class=""
               type="text"
               name="query"
               placeholder="City, State, or Country"
               id="search"
             />
-            <button type="submit">Search</button>
+            <button type="submit" class="custom-button">Search</button>
           </div>
         </form>
-        <span>
+        <span class="search-history">
           <p>Search History</p>
           <ul id="storedWeather"></ul>
         </span>
       </aside>
       <section id="weatherSection">
-        <div id="cityName"></div>
+        <div id="cityName" class="city"></div>
         <div id="currentWeather">
           <div class="weather-div"></div>
         </div>

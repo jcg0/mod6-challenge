@@ -70,9 +70,13 @@ const showWeatherList = function () {
   for (let i = 0; i < storedWeatherData.length; i++) {
     const btn = document.createElement("button");
     const li = document.createElement("li");
-    btn.textContent = storedWeatherData[i];
+
+    btn.textContent = storedWeatherData[i].toUpperCase();
     li.append(btn);
     weatherUl.append(li);
+
+    btn.classList.add("history-button");
+    li.classList.add("search-history-li");
   }
 };
 
@@ -83,7 +87,7 @@ weatherUl.addEventListener("click", function (e) {
   currentWeatherDiv.innerHTML = "";
   forcast.innerHTML = "";
   cityName.innerHTML = "";
-  aside.classList.add("asideStyle");
+  aside.classList.add("aside-style");
   weatherSection.classList.add("weather-container");
 
   getWeather(cityClick);
@@ -95,7 +99,7 @@ searchForm.addEventListener("submit", function (e) {
   currentWeatherDiv.innerHTML = "";
   forcast.innerHTML = "";
   cityName.innerHTML = "";
-  aside.classList.add("asideStyle");
+  aside.classList.add("aside-style");
   weatherSection.classList.add("weather-container");
 
   // we want to tpass that user value to our storeWeather function
@@ -111,6 +115,7 @@ const showCurrentCity = function (name, state) {
   // currentWeatherCity.textContent = "Current";
   // currentWeatherDiv.append(currentWeatherCity);
   cityNameP.textContent = `Weather for ${name}, ${state}`;
+  cityNameP.classList.add("city-name");
   cityName.prepend(cityNameP);
 };
 
@@ -196,19 +201,10 @@ function getWeather(searchLocation) {
           return console.log(data);
         });
       return;
+    })
+    .catch((e) => {
+      console.log(e);
     });
 }
 
 initalizeData(); // --> this function call initializes our empty dataset
-
-// const getLocation = function () {
-//   fetch(
-//     `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=hourly,minutely,alerts&appid=${apiKey}`
-//   )
-//     .then((res) => {
-//       return res.json();
-//     })
-//     .then((data) => {
-//       return console.log(data);
-//     });
-// };
