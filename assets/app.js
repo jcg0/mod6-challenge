@@ -187,7 +187,6 @@ function getWeather(searchLocation) {
       const lat = data[0].lat;
       const lon = data[0].lon;
       showCurrentCity(name, state);
-      console.log(data);
       fetch(
         `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&units=imperial&exclude=hourly,minutely,alerts&appid=${apiKey}`
       )
@@ -198,7 +197,7 @@ function getWeather(searchLocation) {
           showCurrentWeather(data);
           showDailyWeather(data);
           showWeatherList();
-          return console.log(data);
+          return;
         });
       return;
     })
